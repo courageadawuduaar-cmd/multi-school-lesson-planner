@@ -68,6 +68,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 from models import db
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
 
 
 # Login manager
@@ -1042,10 +1045,6 @@ def weekly_summary():
         end_week=end_week,
         stats=stats
     )
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 # ------------------------
 # RUN APP
