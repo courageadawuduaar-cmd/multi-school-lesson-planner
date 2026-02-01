@@ -52,10 +52,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if DATABASE_URL:
-    # Render / production
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL.replace("postgres://", "postgresql://")
+    # Render / Production (PostgreSQL)
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL.replace(
+        "postgres://", "postgresql://"
+    )
 else:
-    # Local development
+    # Local development (SQLite)
     db_path = os.path.join(basedir, "instance", "database.db")
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{db_path}"
 
