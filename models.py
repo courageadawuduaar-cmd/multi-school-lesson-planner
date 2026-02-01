@@ -92,7 +92,6 @@ class Lesson(db.Model):
         backref='reviewed_lessons'
     )
 
-
 # ------------------------
 # YEARLY SCHEME
 # ------------------------
