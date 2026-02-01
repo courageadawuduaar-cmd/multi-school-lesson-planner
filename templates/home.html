@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block title %}Welcome | Multi-School Lesson Planner{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="py-5"
+         style="background: linear-gradient(135deg, #0b1220, #1e293b);">
+    <div class="container py-5 text-white">
+        <div class="row align-items-center gy-5">
+
+            <!-- Text -->
+            <div class="col-lg-7">
+                <span class="badge bg-primary mb-3 px-3 py-2">
+                    Digital Education Management
+                </span>
+
+                <h1 class="display-5 fw-bold mt-3">
+                    Smarter Lesson Planning<br>
+                    Across Multiple Schools
+                </h1>
+
+                <p class="lead text-light mt-3 mb-4">
+                    A secure platform that connects teachers, headmasters,
+                    and administrators through structured lesson planning,
+                    approvals, and reporting.
+                </p>
+
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-5">
+                        Login
+                    </a>
+                    <a href="#how-it-works" class="btn btn-outline-light btn-lg px-5">
+                        How It Works
+                    </a>
+                </div>
+            </div>
+
+            <!-- Visual Card -->
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h6 class="text-muted mb-3">Platform Highlights</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-3">✅ Role-based access control</li>
+                            <li class="mb-3">✅ Lesson approval workflow</li>
+                            <li class="mb-3">✅ PDF lesson exports</li>
+                            <li>✅ Multi-school management</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= TRUST BAR ================= -->
+<section class="py-4 border-bottom bg-white">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-3">
+                <h4 class="fw-bold text-primary mb-0">Secure</h4>
+                <small class="text-muted">CSRF & Role Protected</small>
+            </div>
+            <div class="col-md-3">
+                <h4 class="fw-bold text-success mb-0">Structured</h4>
+                <small class="text-muted">Standardized Lessons</small>
+            </div>
+            <div class="col-md-3">
+                <h4 class="fw-bold text-warning mb-0">Scalable</h4>
+                <small class="text-muted">Multiple Schools</small>
+            </div>
+            <div class="col-md-3">
+                <h4 class="fw-bold text-dark mb-0">Efficient</h4>
+                <small class="text-muted">Paperless Workflow</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how-it-works" class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">How It Works</h2>
+        <p class="text-muted">
+            A simple, controlled workflow designed for schools.
+        </p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4 text-center">
+                    <div class="fs-1 mb-3">✍️</div>
+                    <h5 class="fw-bold">Teachers Create Lessons</h5>
+                    <p class="text-muted">
+                        Teachers prepare lesson plans using a structured format
+                        and submit them for review.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4 text-center">
+                    <div class="fs-1 mb-3">✅</div>
+                    <h5 class="fw-bold">Headmasters Review</h5>
+                    <p class="text-muted">
+                        Headmasters approve or reject lessons
+                        submitted by teachers in their school.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body p-4 text-center">
+                    <div class="fs-1 mb-3">📊</div>
+                    <h5 class="fw-bold">Administrators Oversee</h5>
+                    <p class="text-muted">
+                        Super admins manage schools, users,
+                        and system-wide data.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= ROLES ================= -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Designed for Education Leaders</h2>
+            <p class="text-muted">
+                Each role has a clear responsibility and access scope.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">Super Admin</h5>
+                        <ul class="text-muted ps-3">
+                            <li>Register schools</li>
+                            <li>Assign headmasters</li>
+                            <li>System monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">Headmaster</h5>
+                        <ul class="text-muted ps-3">
+                            <li>Approve lesson plans</li>
+                            <li>Supervise teachers</li>
+                            <li>Maintain standards</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">Teacher</h5>
+                        <ul class="text-muted ps-3">
+                            <li>Create lesson notes</li>
+                            <li>Submit for review</li>
+                            <li>Export lesson PDFs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="py-5">
+    <div class="container text-center py-4">
+        <h2 class="fw-bold mb-3">
+            Ready to Improve Lesson Management?
+        </h2>
+        <p class="lead text-muted mb-4">
+            Sign in to your dashboard and begin managing lessons efficiently.
+        </p>
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-5">
+            Access Dashboard
+        </a>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Create Headmaster{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2>Create Headmaster</h2>
+
+    <form method="POST" class="mt-4">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Assign School</label>
+            <select name="school_id" class="form-select" required>
+                <option value="">Select a school</option>
+                {% for school in schools %}
+                    <option value="{{ school.id }}">{{ school.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Create Headmaster</button>
+    </form>
+</div>
+{% endblock %}

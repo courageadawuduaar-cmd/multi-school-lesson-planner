@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Edit Headmaster{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2>Edit Headmaster</h2>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form action="" method="POST" class="mt-4">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="mb-3">
+        <label for="name" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ headmaster.name }}" required>
+    </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ headmaster.email }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="school" class="form-label">Assign School</label>
+            <select class="form-select" id="school" name="school_id" required>
+                <option value="">Select a school</option>
+                {% for school in schools %}
+                    <option value="{{ school.id }}" {% if headmaster.school_id == school.id %}selected{% endif %}>
+                        {{ school.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Update Headmaster</button>
+        <a href="{{ url_for('list_headmasters') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Submit Yearly Scheme{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Submit Yearly Scheme</h3>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Class</label>
+            <input type="text" name="class_name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Subject</label>
+            <input type="text" name="subject" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Academic Year</label>
+            <input type="text" name="academic_year" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Week</label>
+            <input type="number" name="week" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Term 1 (Sub-strands)</label>
+            <textarea name="term1" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label>Term 2 (Sub-strands)</label>
+            <textarea name="term2" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label>Term 3 (Sub-strands)</label>
+            <textarea name="term3" class="form-control" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

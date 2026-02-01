@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Lesson Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Lesson Details</h3>
+
+        {% if current_user.role == 'headmaster' %}
+        <a href="{{ url_for('lesson_approvals') }}" class="btn btn-secondary btn-sm">
+            ← Back to Approval Queue
+        </a>
+        {% else %}
+        <a href="{{ url_for('view_lessons') }}" class="btn btn-secondary btn-sm">
+            ← Back to My Lessons
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- ===================== -->
+    <!-- LESSON CONTENT CARD   -->
+    <!-- ===================== -->
+    <div class="card shadow-sm mb-5">
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                {{ lesson.lesson_topic }}
+                <span class="badge 
+                    {% if lesson.status == 'approved' %}bg-success
+                    {% elif lesson.status == 'rejected' %}bg-danger
+                    {% else %}bg-warning{% endif %}">
+                    {{ lesson.status|capitalize }}
+                </span>
+            </h5>
+
+            <p class="text-muted mb-4">
+                Teacher: <strong>{{ lesson.teacher.email }}</strong><br>
+                Class: <strong>{{ lesson.class_name }}</strong> |
+                Subject: <strong>{{ lesson.subject }}</strong><br>
+                Date: <strong>{{ lesson.lesson_date.strftime('%d %b %Y') }}</strong>
+            </p>
+
+            <hr>
+
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item"><strong>Week Ending:</strong> {{ lesson.week_ending.strftime('%d %b %Y') }}</li>
+                <li class="list-group-item"><strong>Day:</strong> {{ lesson.day }}</li>
+                <li class="list-group-item"><strong>Period:</strong> {{ lesson.period }}</li>
+                <li class="list-group-item"><strong>Class Size:</strong> {{ lesson.class_size }}</li>
+                <li class="list-group-item"><strong>Performance Indicator:</strong> {{ lesson.performance_indicator }}</li>
+                <li class="list-group-item"><strong>Content Standard Code:</strong> {{ lesson.content_standard_code }}</li>
+                <li class="list-group-item"><strong>Indicator Code:</strong> {{ lesson.indicator_code }}</li>
+                <li class="list-group-item"><strong>Core Competencies:</strong> {{ lesson.core_competencies }}</li>
+                <li class="list-group-item"><strong>Keywords:</strong> {{ lesson.keywords }}</li>
+                <li class="list-group-item"><strong>Reference:</strong> {{ lesson.reference }}</li>
+            </ul>
+
+            <div class="mb-4">
+                <h5>Teaching & Learning Resources (TLR)</h5>
+                <div class="border p-3 rounded bg-light">
+                    {{ lesson.tlr|safe }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5>Phase 1 (Starter)</h5>
+                <div class="border p-3 rounded bg-light">
+                    {{ lesson.phase1|safe }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5>Phase 2 (Main)</h5>
+                <div class="border p-3 rounded bg-light">
+                    {{ lesson.phase2|safe }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5>Phase 3 (Reflection)</h5>
+                <div class="border p-3 rounded bg-light">
+                    {{ lesson.phase3|safe }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===================== -->
+    <!-- HEADMASTER ACTIONS    -->
+    <!-- ===================== -->
+    {% if current_user.role == 'headmaster' and lesson.status == 'pending' %}
+    <div class="card border-warning shadow-sm">
+
+        <!-- Header -->
+        <div class="card border-warning mt-4">
+    <div class="card-header bg-warning fw-bold">
+        Headmaster Review Actions
+    </div>
+
+    <div class="card-body text-center">
+
+        <p class="text-muted mb-4">
+            Please review the lesson carefully before approving or rejecting.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3">
+
+            <form method="POST"
+                  action="{{ url_for('approve_lesson', lesson_id=lesson.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-success btn-lg">
+                    ✓ Approve Lesson
+                </button>
+            </form>
+
+            <form method="POST"
+                  action="{{ url_for('reject_lesson', lesson_id=lesson.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="btn btn-danger btn-lg">
+                    ✕ Reject Lesson
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Weekly Lesson Summary{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Weekly Lesson Approval Summary</h3>
+    <p class="text-muted">
+        {{ start_week.strftime('%d %b %Y') }} –
+        {{ end_week.strftime('%d %b %Y') }}
+    </p>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5>Approved</h5>
+                    <h2 class="text-success">
+                        {{ stats.get("approved", 0) }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5>Pending</h5>
+                    <h2 class="text-warning">
+                        {{ stats.get("pending", 0) }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5>Rejected</h5>
+                    <h2 class="text-danger">
+                        {{ stats.get("rejected", 0) }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

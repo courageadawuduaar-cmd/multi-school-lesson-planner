@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Submit Termly Scheme{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Submit Termly Scheme for {{ scheme.class_name }} - {{ scheme.subject }}</h3>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Term</label>
+            <input type="text" name="term" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Week</label>
+            <input type="number" name="week" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Strand</label>
+            <input type="text" name="strand" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Sub-Strand</label>
+            <input type="text" name="sub_strand" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Content Standard</label>
+            <textarea name="content_standard" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label>Indicator</label>
+            <textarea name="indicator" class="form-control" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label>Resources</label>
+            <textarea name="resources" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

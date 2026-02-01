@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Super Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Super Admin Dashboard</h2>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+        <!-- Create School -->
+        <div class="col">
+            <div class="card h-100 text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Create School</h5>
+                    <p class="card-text">Add a new school to the system.</p>
+                    <a href="{{ url_for('create_school') }}" class="btn btn-primary">Create School</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Headmaster -->
+        <div class="col">
+            <div class="card h-100 text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Create Headmaster</h5>
+                    <p class="card-text">Add a headmaster and assign to a school.</p>
+                    <a href="{{ url_for('create_headmaster') }}" class="btn btn-primary">Create Headmaster</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- List All Headmasters -->
+        <div class="col">
+            <div class="card h-100 text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">All Headmasters</h5>
+                    <p class="card-text">View, edit, or manage all headmasters.</p>
+                    <a href="{{ url_for('list_headmasters') }}" class="btn btn-primary">View Headmasters</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- List All Schools -->
+        <div class="col">
+            <div class="card h-100 text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">All Schools</h5>
+                    <p class="card-text">View, edit, or manage all schools.</p>
+                    <a href="{{ url_for('list_schools') }}" class="btn btn-primary">View Schools</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}My Lessons{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-3">My Lessons</h3>
+
+    {% if lessons %}
+        <div class="accordion" id="lessonsAccordion">
+            {% for lesson in lessons %}
+
+            {% set is_rejected = lesson.status == 'rejected' %}
+
+            <div class="accordion-item mb-3 shadow-sm
+                {% if is_rejected %}border border-danger{% endif %}">
+
+                <h2 class="accordion-header" id="heading{{ lesson.id }}">
+                    <button class="accordion-button collapsed
+                        {% if is_rejected %}bg-danger bg-opacity-10{% endif %}"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{ lesson.id }}">
+
+                        <strong>{{ lesson.lesson_topic }}</strong>
+                        <span class="ms-2 text-muted">
+                            — {{ lesson.class_name }} ({{ lesson.subject }})
+                        </span>
+
+                        <span class="ms-auto">
+                            {% if lesson.status == 'approved' %}
+                                <span class="badge bg-success">Approved</span>
+                            {% elif lesson.status == 'rejected' %}
+                                <span class="badge bg-danger">Rejected</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% endif %}
+                        </span>
+                    </button>
+                </h2>
+
+                <div id="collapse{{ lesson.id }}"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#lessonsAccordion">
+                    <div class="accordion-body">
+
+                        <!-- BASIC INFO -->
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item"><strong>Date:</strong> {{ lesson.lesson_date.strftime('%d %b %Y') }}</li>
+                            <li class="list-group-item"><strong>Week Ending:</strong> {{ lesson.week_ending.strftime('%d %b %Y') }}</li>
+                            <li class="list-group-item"><strong>Day:</strong> {{ lesson.day }}</li>
+                            <li class="list-group-item"><strong>Period:</strong> {{ lesson.period }}</li>
+                            <li class="list-group-item"><strong>Class Size:</strong> {{ lesson.class_size }}</li>
+                        </ul>
+
+                        <!-- CONTENT -->
+                        <div class="mb-3">
+                            <h6>Teaching & Learning Resources</h6>
+                            <div class="border rounded p-2">{{ lesson.tlr|safe }}</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <h6>Phase 1 (Starter)</h6>
+                            <div class="border rounded p-2">{{ lesson.phase1|safe }}</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <h6>Phase 2 (Main)</h6>
+                            <div class="border rounded p-2">{{ lesson.phase2|safe }}</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <h6>Phase 3 (Reflection)</h6>
+                            <div class="border rounded p-2">{{ lesson.phase3|safe }}</div>
+                        </div>
+
+                        <!-- HEADMASTER COMMENT -->
+                        {% if lesson.review_comment %}
+                            <div class="alert 
+                                {% if is_rejected %}alert-danger{% else %}alert-info{% endif %}">
+                                <strong>Headmaster’s Comment:</strong><br>
+                                {{ lesson.review_comment }}
+                            </div>
+                        {% endif %}
+
+                        <!-- ACTIONS -->
+                        <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-2">
+
+                            <a href="{{ url_for('download_lesson_pdf', lesson_id=lesson.id) }}"
+                               class="btn btn-sm btn-outline-danger">
+                                📄 Download PDF
+                            </a>
+
+                            {% if lesson.status == 'rejected' %}
+                                <a href="{{ url_for('edit_lesson', lesson_id=lesson.id) }}"
+                                   class="btn btn-sm btn-warning">
+                                    ✏️ Edit & Resubmit
+                                </a>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            You have not submitted any lessons yet.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

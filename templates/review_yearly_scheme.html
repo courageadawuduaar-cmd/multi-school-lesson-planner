@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Submitted Yearly Schemes{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h3 class="mb-4">Submitted Yearly Schemes</h3>
+
+    {% if schemes %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Class</th>
+                        <th>Subject</th>
+                        <th>Academic Year</th>
+                        <th>Teacher</th>
+                        <th>Status</th>
+                        <th>Submitted On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for scheme in schemes %}
+                    <tr>
+                        <td>{{ scheme.class_name }}</td>
+                        <td>{{ scheme.subject }}</td>
+                        <td>{{ scheme.academic_year }}</td>
+                        <td>{{ scheme.teacher.name }}</td>
+                        <td>
+                            <span class="badge 
+                                {% if scheme.status == 'approved' %}bg-success
+                                {% elif scheme.status == 'rejected' %}bg-danger
+                                {% else %}bg-warning{% endif %}">
+                                {{ scheme.status }}
+                            </span>
+                        </td>
+                        <td>{{ scheme.created_at.strftime('%d %b %Y') }}</td>
+                        <td>
+                            <a href="{{ url_for('view_yearly_scheme', scheme_id=scheme.id) }}"
+                               class="btn btn-sm btn-outline-primary">
+                                View
+                            </a>
+                            {% if scheme.status == 'pending' %}
+                                <a href="{{ url_for('approve_scheme', scheme_id=scheme.id) }}"
+                                   class="btn btn-sm btn-success">Approve</a>
+                                <a href="{{ url_for('reject_scheme', scheme_id=scheme.id) }}"
+                                   class="btn btn-sm btn-danger">Reject</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No schemes have been submitted yet.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

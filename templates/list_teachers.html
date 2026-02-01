@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}All Teachers{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h3>All Teachers</h3>
+    {% if teachers %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for teacher in teachers %}
+            <tr>
+                <td>{{ teacher.name }}</td>
+                <td>{{ teacher.email }}</td>
+                <td>{{ teacher.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info">No teachers created yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

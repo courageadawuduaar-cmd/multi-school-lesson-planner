@@ -1,0 +1,65 @@
+/* ---------- GENERAL ---------- */
+.page-title {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.badge-status {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+}
+
+/* ---------- LESSON CARD ---------- */
+.lesson-card {
+    border-radius: 14px;
+    border-left: 6px solid #0d6efd;
+}
+
+.lesson-meta {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* ---------- SECTION HEADERS ---------- */
+.section-title {
+    font-weight: 600;
+    color: #0d6efd;
+    border-left: 4px solid #0d6efd;
+    padding-left: 10px;
+    margin-bottom: 12px;
+}
+
+/* ---------- CONTENT BOX ---------- */
+.content-box {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+/* ---------- APPROVAL CARD ---------- */
+.approval-card {
+    border-radius: 14px;
+    border-left: 6px solid #ffc107;
+    background: #fff8e1;
+}
+
+.approval-title {
+    font-weight: 700;
+    color: #d39e00;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn-approve {
+    background: linear-gradient(135deg, #198754, #28a745);
+    border: none;
+}
+
+.btn-reject {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border: none;
+}
+
+.btn-approve:hover,
+.btn-reject:hover {
+    opacity: 0.9;
+}

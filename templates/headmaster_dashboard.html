@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Headmaster Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- SIDEBAR -->
+        <aside class="col-md-3 col-lg-2 px-0">
+            <div class="d-flex flex-column bg-dark text-white min-vh-100 p-3">
+
+                <!-- BRAND -->
+                <div class="mb-4 text-center border-bottom pb-3">
+                    <h5 class="fw-bold mb-0">Headmaster Panel</h5>
+                    <small class="text-muted">School Management</small>
+                </div>
+
+                <!-- NAV -->
+                <ul class="nav nav-pills flex-column gap-1">
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('headmaster_dashboard') }}"
+                           class="nav-link text-white d-flex align-items-center gap-2">
+                            <span>🏠</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('create_teacher') }}"
+                           class="nav-link text-white d-flex align-items-center gap-2">
+                            <span>👩‍🏫</span>
+                            <span>Create Teacher</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('list_teachers') }}"
+                           class="nav-link text-white d-flex align-items-center gap-2">
+                            <span>📋</span>
+                            <span>All Teachers</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('teachers_lessons') }}"
+                           class="nav-link text-white d-flex align-items-center gap-2">
+                            <span>📚</span>
+                            <span>Teachers’ Lessons</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('lesson_approvals') }}"
+                           class="nav-link text-white d-flex align-items-center gap-2">
+                            <span>✅</span>
+                            <span>Lesson Approvals</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('headmaster_schemes') }}"
+                           class="nav-link text-white d-flex align-items-center gap-2">
+                            <span>📄</span>
+                            <span>Schemes of Learning</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <!-- FOOTER -->
+                <div class="mt-auto pt-3 border-top text-center small text-muted">
+                    Logged in as Headmaster
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="col-md-9 col-lg-10 p-4">
+
+            <h2 class="mb-4 fw-semibold">Dashboard Overview</h2>
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- STATS -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 bg-primary text-white">
+                        <div class="card-body text-center">
+                            <small>Total Teachers</small>
+                            <h2 class="fw-bold">{{ total_teachers }}</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 bg-success text-white">
+                        <div class="card-body text-center">
+                            <small>Approved Lessons</small>
+                            <h2 class="fw-bold">{{ approved_lessons }}</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card shadow-sm border-0 bg-warning text-dark">
+                        <div class="card-body text-center">
+                            <small>Pending Lessons</small>
+                            <h2 class="fw-bold">{{ pending_lessons }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5>Create Teacher</h5>
+                            <p class="text-muted">Add a new teacher to your school.</p>
+                            <a href="{{ url_for('create_teacher') }}" class="btn btn-primary">
+                                Create
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5>Review Lessons</h5>
+                            <p class="text-muted">Approve or reject lesson notes.</p>
+                            <a href="{{ url_for('lesson_approvals') }}" class="btn btn-warning">
+                                Review
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5>Schemes of Learning</h5>
+                            <p class="text-muted">Vet submitted schemes.</p>
+                            <a href="{{ url_for('headmaster_schemes') }}" class="btn btn-dark">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+{% endblock %}

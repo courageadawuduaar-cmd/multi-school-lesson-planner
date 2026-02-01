@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}All Headmasters{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">All Headmasters</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <table class="table table-striped table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>School</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for headmaster in headmasters %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ headmaster.name }}</td>
+                <td>{{ headmaster.email }}</td>
+                <td>{{ headmaster.school.name if headmaster.school else '—' }}</td>
+                <td>
+                    <a href="{{ url_for('edit_headmaster', id=headmaster.id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <form action="{{ url_for('delete_headmaster', headmaster_id=headmaster.id) }}"
+      method="POST"
+      class="d-inline">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <button type="submit"
+            class="btn btn-sm btn-danger"
+            onclick="return confirm('Are you sure you want to delete this headmaster?')">
+        Delete
+    </button>
+</form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
