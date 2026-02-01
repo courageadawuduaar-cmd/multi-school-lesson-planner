@@ -69,6 +69,22 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 from models import db
 db.init_app(app)
 
+# ------------------------
+# SUPER ADMIN CREATION (first run)
+# ------------------------
+def create_super_admin():
+    admin = User.query.filter_by(email='admin@example.com').first()
+    if not admin:
+        admin = User(
+            name='Super Admin',
+            email='admin@example.com',
+            password=generate_password_hash('admin123'),
+            role='super_admin'
+        )
+        db.session.add(admin)
+        db.session.commit()
+        print("Super admin created! Email: admin@example.com | Password: admin123")
+        
 with app.app_context():
     db.create_all()
     create_super_admin()
@@ -89,21 +105,7 @@ from models import User, School, Lesson, YearlyScheme, TermlyScheme
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# ------------------------
-# SUPER ADMIN CREATION (first run)
-# ------------------------
-def create_super_admin():
-    admin = User.query.filter_by(email='admin@example.com').first()
-    if not admin:
-        admin = User(
-            name='Super Admin',
-            email='admin@example.com',
-            password=generate_password_hash('admin123'),
-            role='super_admin'
-        )
-        db.session.add(admin)
-        db.session.commit()
-        print("Super admin created! Email: admin@example.com | Password: admin123")
+
 
 # Teachers' lessons submitted to this headmaster
 @app.route('/headmaster/teachers-lessons')
