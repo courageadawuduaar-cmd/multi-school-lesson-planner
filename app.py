@@ -24,6 +24,7 @@ from flask import send_file
 from sqlalchemy import func
 from datetime import timedelta
 from models import db, User, Lesson, School
+from werkzeug.security import generate_password_hash
 import tempfile
 from forms import ForgotPasswordForm, ResetPasswordForm
 from forms import LoginForm, ForgotPasswordForm, ResetPasswordForm
@@ -70,7 +71,7 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
-
+    create_super_admin()
 
 
 # Login manager
