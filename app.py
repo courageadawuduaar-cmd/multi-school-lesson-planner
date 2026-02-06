@@ -29,13 +29,19 @@ import tempfile
 from forms import ForgotPasswordForm, ResetPasswordForm
 from forms import LoginForm, ForgotPasswordForm, ResetPasswordForm
 from flask import abort
-
+from sqlalchemy import func
+from models import ActivityLog
+from flask import make_response
+from xhtml2pdf import pisa
+from io import BytesIO
+from flask import render_template
 
 
 
 # Import models
 from models import db, User, YearlyScheme, Lesson
 from forms import LessonForm
+from models import ActivityLog
 
 
 # ------------------------
@@ -90,6 +96,16 @@ with app.app_context():
     create_super_admin()
 
 
+def log_activity(action):
+    if current_user.is_authenticated:
+        log = ActivityLog(
+            user_name=current_user.name,
+            role=current_user.role,
+            action=action
+        )
+        db.session.add(log)
+        db.session.commit()
+        
 # Login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -124,6 +140,22 @@ def teachers_lessons():
 
     return render_template('teachers_lessons.html', lessons=lessons)
 
+@app.route('/superadmin/system-reports')
+@login_required
+def system_reports():
+    if current_user.role != 'super_admin':
+        abort(403)
+
+    logs = ActivityLog.query.order_by(ActivityLog.timestamp.desc()).limit(100).all()
+
+    return render_template(
+        'system_reports.html',
+        logs=logs,
+        total_schools=School.query.count(),
+        total_teachers=User.query.filter_by(role='teacher').count(),
+        total_headmasters=User.query.filter_by(role='headmaster').count(),
+        total_lessons=Lesson.query.count()
+    )
 
 # Super Admin: Create School
 @app.route('/super-admin/create-school', methods=['GET', 'POST'])
@@ -147,6 +179,8 @@ def create_school():
         school = School(name=name, email=email, phone=phone, location=location)
         db.session.add(school)
         db.session.commit()
+
+        log_activity("Created a school")
         flash(f"School '{name}' created successfully!", "success")
         return redirect(url_for('super_admin_dashboard'))
 
@@ -298,6 +332,8 @@ def create_headmaster():
         )
         db.session.add(headmaster)
         db.session.commit()
+
+        log_activity("Created a headmaster")
         flash(f"Headmaster '{name}' created successfully!", "success")
         return redirect(url_for('super_admin_dashboard'))
 
@@ -350,6 +386,33 @@ def super_admin_dashboard():
         return redirect(url_for("home"))
     schools = School.query.all()
     return render_template("super_admin_dashboard.html", schools=schools)
+
+
+@app.route('/superadmin/system-logs')
+@login_required
+def system_logs():
+    if current_user.role != 'super_admin':
+        flash("Unauthorized access", "danger")
+        return redirect(url_for('home'))
+
+    logs = ActivityLog.query.order_by(ActivityLog.timestamp.desc()).all()
+
+    # Chart data: count actions by role
+    role_counts = (
+        db.session.query(ActivityLog.role, func.count(ActivityLog.id))
+        .group_by(ActivityLog.role)
+        .all()
+    )
+
+    roles = [r[0] for r in role_counts]
+    role_totals = [r[1] for r in role_counts]
+
+    return render_template(
+        'system_logs.html',
+        logs=logs,
+        roles=roles,
+        role_totals=role_totals
+    )
 
 # ------------------------
 # HEADMASTER DASHBOARD
@@ -424,6 +487,10 @@ def approve_lesson(lesson_id):
     lesson.reviewed_at = datetime.utcnow()
 
     db.session.commit()
+
+    # ✅ LOG ACTION
+    log_activity(f"Approved lesson ID {lesson.id}")
+
     flash("Lesson approved with comment.", "success")
     return redirect(url_for("lesson_approvals"))
 
@@ -452,6 +519,10 @@ def reject_lesson(lesson_id):
     lesson.reviewed_at = datetime.utcnow()
 
     db.session.commit()
+
+    # ✅ LOG ACTION
+    log_activity(f"Rejected lesson ID {lesson.id}")
+
     flash("Lesson rejected with comment.", "warning")
     return redirect(url_for("lesson_approvals"))
 
@@ -538,6 +609,9 @@ def create_teacher():
         )
         db.session.add(teacher)
         db.session.commit()
+
+        log_activity("Created a teacher")
+
         flash('Teacher created successfully!', 'success')
         return redirect(url_for('list_teachers'))
 
@@ -918,6 +992,9 @@ def create_lesson():
         )
         db.session.add(lesson)
         db.session.commit()
+
+        log_activity("Created a lesson")
+
         flash("Lesson created successfully!", "success")
         return redirect(url_for('view_lessons'))
 
@@ -1048,6 +1125,25 @@ def weekly_summary():
         end_week=end_week,
         stats=stats
     )
+
+@app.route('/superadmin/system-logs/pdf')
+@login_required
+def export_logs_pdf():
+    if current_user.role != 'super_admin':
+        flash("Unauthorized access", "danger")
+        return redirect(url_for('home'))
+
+    logs = ActivityLog.query.order_by(ActivityLog.timestamp.desc()).all()
+
+    html = render_template('system_logs_pdf.html', logs=logs)
+    result = BytesIO()
+
+    pisa.CreatePDF(html, dest=result)
+
+    response = make_response(result.getvalue())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=system_logs.pdf'
+    return response
 
 # ------------------------
 # RUN APP

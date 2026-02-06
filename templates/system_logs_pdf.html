@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial; font-size: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td {
+            border: 1px solid black;
+            padding: 6px;
+            text-align: left;
+        }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+    <h1>Multi-School Lesson Planner</h1>
+    <h2>System Activity Logs Report</h2>
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Role</th>
+            <th>Action</th>
+            <th>Date</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.user_name }}</td>
+            <td>{{ log.role }}</td>
+            <td>{{ log.action }}</td>
+            <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

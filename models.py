@@ -151,3 +151,10 @@ class TermlyScheme(db.Model):
         'YearlyScheme',
         backref=db.backref('termly_schemes', cascade='all, delete-orphan')
     )
+
+class ActivityLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_name = db.Column(db.String(100))
+    role = db.Column(db.String(50))
+    action = db.Column(db.String(255))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3 class="mb-4">System Activity Logs</h3>
+
+    {% if logs %}
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>User</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Date & Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ log.user_name }}</td>
+                <td>{{ log.role }}</td>
+                <td>{{ log.action }}</td>
+                <td>{{ log.timestamp.strftime('%d %b %Y, %I:%M %p') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="text-muted">No system activity recorded yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

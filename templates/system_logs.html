@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}System Logs{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h3 class="mb-4">System Activity Logs</h3>
+
+    <!-- Chart -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Activity by User Role</h5>
+            <canvas id="roleChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Export PDF -->
+    <a href="{{ url_for('export_logs_pdf') }}" class="btn btn-danger mb-3">
+        Export Logs as PDF
+    </a>
+
+    <!-- Logs Table -->
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>User</th>
+                <th>Role</th>
+                <th>Action</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.user_name }}</td>
+                <td>{{ log.role }}</td>
+                <td>{{ log.action }}</td>
+                <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('roleChart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ roles | tojson }},
+        datasets: [{
+            label: 'Number of Activities',
+            data: {{ role_totals | tojson }},
+        }]
+    }
+});
+</script>
+{% endblock %}
