@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block title %}Monthly Lesson Report{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <h2 class="mb-4">Monthly Lesson Report</h2>
+
+    <!-- Filter Form -->
+    <form method="POST" class="row g-3 mb-4">
+
+        <!-- ✅ CSRF TOKEN (FIXES BAD REQUEST ERROR) -->
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="col-md-4">
+            <label class="form-label">Month</label>
+            <select name="month" class="form-select" required>
+                {% for m in range(1,13) %}
+                <option value="{{ m }}">{{ m }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Year</label>
+            <input type="number" name="year" class="form-control" value="2026" required>
+        </div>
+
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">
+                Generate Report
+            </button>
+        </div>
+    </form>
+
+    {% if report_data %}
+
+    <!-- SUMMARY CARDS -->
+    <div class="row text-center mb-4">
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h6>Total</h6>
+                    <h3>{{ report_data.total }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-success">
+                    <h6>Approved</h6>
+                    <h3>{{ report_data.approved }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-warning">
+                    <h6>Pending</h6>
+                    <h3>{{ report_data.pending }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body text-danger">
+                    <h6>Rejected</h6>
+                    <h3>{{ report_data.rejected }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <canvas id="barChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="pieChart"></canvas>
+        </div>
+    </div>
+
+    <!-- EXPORT PDF -->
+    <a href="{{ url_for('monthly_report_pdf', month=report_data.month, year=report_data.year) }}"
+       class="btn btn-danger">
+        Export as PDF
+    </a>
+
+    {% endif %}
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% if report_data %}
+<script>
+new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Approved', 'Pending', 'Rejected'],
+        datasets: [{
+            data: [
+                {{ report_data.approved }},
+                {{ report_data.pending }},
+                {{ report_data.rejected }}
+            ]
+        }]
+    }
+});
+
+new Chart(document.getElementById('pieChart'), {
+    type: 'pie',
+    data: {
+        labels: ['Approved', 'Pending', 'Rejected'],
+        datasets: [{
+            data: [
+                {{ report_data.approved }},
+                {{ report_data.pending }},
+                {{ report_data.rejected }}
+            ]
+        }]
+    }
+});
+</script>
+{% endif %}
+{% endblock %}

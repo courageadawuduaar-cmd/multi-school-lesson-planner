@@ -3,7 +3,13 @@
 
 {% block content %}
 <div class="container my-5">
-    <h2 class="mb-4">Super Admin Dashboard</h2>
+
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">
+            <i class="bi bi-speedometer2 me-2"></i> Super Admin Dashboard
+        </h2>
+    </div>
 
     <!-- Flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -11,67 +17,97 @@
             {% for category, message in messages %}
                 <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
                     {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             {% endfor %}
         {% endif %}
     {% endwith %}
 
+    <!-- Dashboard Cards -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
         <!-- Create School -->
         <div class="col">
-            <div class="card h-100 text-center shadow-sm">
+            <div class="card h-100 text-center shadow border-0 bg-primary bg-gradient text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Create School</h5>
-                    <p class="card-text">Add a new school to the system.</p>
-                    <a href="{{ url_for('create_school') }}" class="btn btn-primary">Create School</a>
+                    <i class="bi bi-building fs-1 mb-3"></i>
+                    <h5 class="card-title fw-bold">Create School</h5>
+                    <p class="card-text">Register a new school into the system.</p>
+                    <a href="{{ url_for('create_school') }}" class="btn btn-light btn-sm fw-semibold">
+                        Create School
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- Create Headmaster -->
         <div class="col">
-            <div class="card h-100 text-center shadow-sm">
+            <div class="card h-100 text-center shadow border-0 bg-success bg-gradient text-white">
                 <div class="card-body">
-                    <h5 class="card-title">Create Headmaster</h5>
-                    <p class="card-text">Add a headmaster and assign to a school.</p>
-                    <a href="{{ url_for('create_headmaster') }}" class="btn btn-primary">Create Headmaster</a>
+                    <i class="bi bi-person-badge fs-1 mb-3"></i>
+                    <h5 class="card-title fw-bold">Create Headmaster</h5>
+                    <p class="card-text">Add and assign a headmaster to a school.</p>
+                    <a href="{{ url_for('create_headmaster') }}" class="btn btn-light btn-sm fw-semibold">
+                        Create Headmaster
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- List All Headmasters -->
+        <!-- All Headmasters -->
         <div class="col">
-            <div class="card h-100 text-center shadow-sm">
+            <div class="card h-100 text-center shadow border-0 bg-info bg-gradient text-white">
                 <div class="card-body">
-                    <h5 class="card-title">All Headmasters</h5>
-                    <p class="card-text">View, edit, or manage all headmasters.</p>
-                    <a href="{{ url_for('list_headmasters') }}" class="btn btn-primary">View Headmasters</a>
+                    <i class="bi bi-people fs-1 mb-3"></i>
+                    <h5 class="card-title fw-bold">All Headmasters</h5>
+                    <p class="card-text">View and manage all headmasters.</p>
+                    <a href="{{ url_for('list_headmasters') }}" class="btn btn-light btn-sm fw-semibold">
+                        View Headmasters
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- List All Schools -->
+        <!-- All Schools -->
         <div class="col">
-            <div class="card h-100 text-center shadow-sm">
+            <div class="card h-100 text-center shadow border-0 bg-warning bg-gradient text-dark">
                 <div class="card-body">
-                    <h5 class="card-title">All Schools</h5>
-                    <p class="card-text">View, edit, or manage all schools.</p>
-                    <a href="{{ url_for('list_schools') }}" class="btn btn-primary">View Schools</a>
+                    <i class="bi bi-mortarboard fs-1 mb-3"></i>
+                    <h5 class="card-title fw-bold">All Schools</h5>
+                    <p class="card-text">View and manage registered schools.</p>
+                    <a href="{{ url_for('list_schools') }}" class="btn btn-dark btn-sm fw-semibold">
+                        View Schools
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Report -->
+        <div class="col">
+            <div class="card h-100 text-center shadow border-0 bg-secondary bg-gradient text-white">
+                <div class="card-body">
+                    <i class="bi bi-bar-chart-line fs-1 mb-3"></i>
+                    <h5 class="card-title fw-bold">Monthly Lesson Report</h5>
+                    <p class="card-text">
+                        Track lesson submissions and approvals monthly.
+                    </p>
+                    <a href="{{ url_for('monthly_report') }}" class="btn btn-light btn-sm fw-semibold">
+                        View Report
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- System Logs -->
         <div class="col">
-            <div class="card h-100 text-center shadow-sm border-dark">
+            <div class="card h-100 text-center shadow border-0 bg-dark bg-gradient text-white">
                 <div class="card-body">
-                    <h5 class="card-title">System Logs</h5>
+                    <i class="bi bi-shield-lock fs-1 mb-3"></i>
+                    <h5 class="card-title fw-bold">System Logs</h5>
                     <p class="card-text">
-                        View system-wide activity reports and user actions.
+                        Review system activities and audit logs.
                     </p>
-                    <a href="{{ url_for('system_logs') }}" class="btn btn-dark">
+                    <a href="{{ url_for('system_logs') }}" class="btn btn-light btn-sm fw-semibold">
                         View Logs
                     </a>
                 </div>

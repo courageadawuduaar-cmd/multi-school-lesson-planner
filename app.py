@@ -35,7 +35,10 @@ from flask import make_response
 from xhtml2pdf import pisa
 from io import BytesIO
 from flask import render_template
-
+from sqlalchemy import extract
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.pagesizes import A4
 
 
 # Import models
@@ -1145,6 +1148,87 @@ def export_logs_pdf():
     response.headers['Content-Disposition'] = 'attachment; filename=system_logs.pdf'
     return response
 
+@app.route("/superadmin/monthly-report", methods=["GET", "POST"])
+@login_required
+def monthly_report():
+
+    # ✅ CORRECT role check
+    if current_user.role != "super_admin":
+        flash("Unauthorized access", "danger")
+        return redirect(url_for("super_admin_dashboard"))
+
+    report_data = None
+
+    if request.method == "POST":
+        month = int(request.form.get("month"))
+        year = int(request.form.get("year"))
+
+        lessons = Lesson.query.filter(
+            extract("month", Lesson.created_at) == month,
+            extract("year", Lesson.created_at) == year
+        ).all()
+
+        report_data = {
+            "total": len(lessons),
+            "approved": sum(1 for l in lessons if l.status == "approved"),
+            "rejected": sum(1 for l in lessons if l.status == "rejected"),
+            "pending": sum(1 for l in lessons if l.status == "pending"),
+            "lessons": lessons,
+            "month": month,
+            "year": year
+        }
+
+    return render_template(
+        "super_admin_monthly_report.html",
+        report_data=report_data
+    )
+
+
+@app.route("/superadmin/monthly-report/pdf")
+@login_required
+def monthly_report_pdf():
+
+    if current_user.role != "super_admin":
+        flash("Unauthorized access", "danger")
+        return redirect(url_for("home"))
+
+    month = int(request.args.get("month"))
+    year = int(request.args.get("year"))
+
+    lessons = Lesson.query.filter(
+        extract("month", Lesson.created_at) == month,
+        extract("year", Lesson.created_at) == year
+    ).all()
+
+    approved = sum(1 for l in lessons if l.status == "approved")
+    pending = sum(1 for l in lessons if l.status == "pending")
+    rejected = sum(1 for l in lessons if l.status == "rejected")
+
+    file_path = f"monthly_report_{month}_{year}.pdf"
+
+    doc = SimpleDocTemplate(file_path, pagesize=A4)
+    styles = getSampleStyleSheet()
+    story = []
+
+    story.append(Paragraph(f"<b>Monthly Lesson Report</b>", styles["Title"]))
+    story.append(Spacer(1, 12))
+
+    story.append(Paragraph(f"Month: {month} / Year: {year}", styles["Normal"]))
+    story.append(Spacer(1, 12))
+
+    table_data = [
+        ["Total Lessons", len(lessons)],
+        ["Approved", approved],
+        ["Pending", pending],
+        ["Rejected", rejected],
+    ]
+
+    table = Table(table_data)
+    story.append(table)
+
+    doc.build(story)
+
+    return send_file(file_path, as_attachment=True)
 # ------------------------
 # RUN APP
 # ------------------------

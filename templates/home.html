@@ -12,26 +12,26 @@
             <!-- Text -->
             <div class="col-lg-7">
                 <span class="badge bg-primary mb-3 px-3 py-2">
-                    Digital Education Management
+                    Digital Education Management System
                 </span>
 
                 <h1 class="display-5 fw-bold mt-3">
-                    Smarter Lesson Planning<br>
-                    Across Multiple Schools
+                    Smart Lesson Planning,<br>
+                    Supervision & Accountability
                 </h1>
 
                 <p class="lead text-light mt-3 mb-4">
-                    A secure platform that connects teachers, headmasters,
-                    and administrators through structured lesson planning,
-                    approvals, and reporting.
+                    A secure offline-capable platform that connects teachers,
+                    headmasters, and administrators through lesson planning,
+                    approvals, activity tracking, and reporting.
                 </p>
 
                 <div class="d-flex gap-3 flex-wrap">
                     <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-5">
                         Login
                     </a>
-                    <a href="#how-it-works" class="btn btn-outline-light btn-lg px-5">
-                        How It Works
+                    <a href="#features" class="btn btn-outline-light btn-lg px-5">
+                        View Features
                     </a>
                 </div>
             </div>
@@ -40,12 +40,13 @@
             <div class="col-lg-5">
                 <div class="card shadow-lg border-0 rounded-4">
                     <div class="card-body p-4">
-                        <h6 class="text-muted mb-3">Platform Highlights</h6>
+                        <h6 class="text-muted mb-3">Core Capabilities</h6>
                         <ul class="list-unstyled mb-0">
                             <li class="mb-3">✅ Role-based access control</li>
                             <li class="mb-3">✅ Lesson approval workflow</li>
-                            <li class="mb-3">✅ PDF lesson exports</li>
-                            <li>✅ Multi-school management</li>
+                            <li class="mb-3">✅ User & system activity logs</li>
+                            <li class="mb-3">✅ Export reports as PDF</li>
+                            <li>✅ Multi-school administration</li>
                         </ul>
                     </div>
                 </div>
@@ -61,30 +62,30 @@
         <div class="row text-center g-4">
             <div class="col-md-3">
                 <h4 class="fw-bold text-primary mb-0">Secure</h4>
-                <small class="text-muted">CSRF & Role Protected</small>
+                <small class="text-muted">Authentication & Role Control</small>
             </div>
             <div class="col-md-3">
-                <h4 class="fw-bold text-success mb-0">Structured</h4>
-                <small class="text-muted">Standardized Lessons</small>
+                <h4 class="fw-bold text-success mb-0">Accountable</h4>
+                <small class="text-muted">User & System Logs</small>
             </div>
             <div class="col-md-3">
-                <h4 class="fw-bold text-warning mb-0">Scalable</h4>
-                <small class="text-muted">Multiple Schools</small>
+                <h4 class="fw-bold text-warning mb-0">Offline Ready</h4>
+                <small class="text-muted">LAN-Based Deployment</small>
             </div>
             <div class="col-md-3">
                 <h4 class="fw-bold text-dark mb-0">Efficient</h4>
-                <small class="text-muted">Paperless Workflow</small>
+                <small class="text-muted">Paperless & Auditable</small>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ================= HOW IT WORKS ================= -->
-<section id="how-it-works" class="container py-5">
+<!-- ================= FEATURES ================= -->
+<section id="features" class="container py-5">
     <div class="text-center mb-5">
-        <h2 class="fw-bold">How It Works</h2>
+        <h2 class="fw-bold">Key System Features</h2>
         <p class="text-muted">
-            A simple, controlled workflow designed for schools.
+            Designed to improve lesson supervision, transparency, and decision-making.
         </p>
     </div>
 
@@ -93,11 +94,11 @@
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body p-4 text-center">
-                    <div class="fs-1 mb-3">✍️</div>
-                    <h5 class="fw-bold">Teachers Create Lessons</h5>
+                    <div class="fs-1 mb-3">📝</div>
+                    <h5 class="fw-bold">Lesson Planning & Approval</h5>
                     <p class="text-muted">
-                        Teachers prepare lesson plans using a structured format
-                        and submit them for review.
+                        Teachers submit lesson plans which are reviewed,
+                        approved, or rejected by headmasters.
                     </p>
                 </div>
             </div>
@@ -106,11 +107,11 @@
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body p-4 text-center">
-                    <div class="fs-1 mb-3">✅</div>
-                    <h5 class="fw-bold">Headmasters Review</h5>
+                    <div class="fs-1 mb-3">📜</div>
+                    <h5 class="fw-bold">Activity & System Logs</h5>
                     <p class="text-muted">
-                        Headmasters approve or reject lessons
-                        submitted by teachers in their school.
+                        Every major action—lesson creation, approval,
+                        rejection, and user management—is logged for accountability.
                     </p>
                 </div>
             </div>
@@ -119,11 +120,11 @@
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body p-4 text-center">
-                    <div class="fs-1 mb-3">📊</div>
-                    <h5 class="fw-bold">Administrators Oversee</h5>
+                    <div class="fs-1 mb-3">📄</div>
+                    <h5 class="fw-bold">PDF Reports & Exports</h5>
                     <p class="text-muted">
-                        Super admins manage schools, users,
-                        and system-wide data.
+                        Lesson plans and system activity reports
+                        can be exported as PDF documents for record keeping.
                     </p>
                 </div>
             </div>
@@ -136,9 +137,9 @@
 <section class="bg-light py-5">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="fw-bold">Designed for Education Leaders</h2>
+            <h2 class="fw-bold">Role-Based System Design</h2>
             <p class="text-muted">
-                Each role has a clear responsibility and access scope.
+                Clear responsibilities and monitored access for each user group.
             </p>
         </div>
 
@@ -147,11 +148,11 @@
             <div class="col-md-4">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body p-4">
-                        <h5 class="fw-bold mb-3">Super Admin</h5>
+                        <h5 class="fw-bold mb-3">Super Administrator</h5>
                         <ul class="text-muted ps-3">
-                            <li>Register schools</li>
-                            <li>Assign headmasters</li>
-                            <li>System monitoring</li>
+                            <li>Manage schools and users</li>
+                            <li>View system-wide activity logs</li>
+                            <li>Export system reports (PDF)</li>
                         </ul>
                     </div>
                 </div>
@@ -162,9 +163,9 @@
                     <div class="card-body p-4">
                         <h5 class="fw-bold mb-3">Headmaster</h5>
                         <ul class="text-muted ps-3">
-                            <li>Approve lesson plans</li>
-                            <li>Supervise teachers</li>
-                            <li>Maintain standards</li>
+                            <li>Approve or reject lessons</li>
+                            <li>Monitor teacher activities</li>
+                            <li>View lesson approval logs</li>
                         </ul>
                     </div>
                 </div>
@@ -175,9 +176,9 @@
                     <div class="card-body p-4">
                         <h5 class="fw-bold mb-3">Teacher</h5>
                         <ul class="text-muted ps-3">
-                            <li>Create lesson notes</li>
-                            <li>Submit for review</li>
-                            <li>Export lesson PDFs</li>
+                            <li>Create and submit lesson plans</li>
+                            <li>Track approval status</li>
+                            <li>Export lessons as PDF</li>
                         </ul>
                     </div>
                 </div>
@@ -191,10 +192,10 @@
 <section class="py-5">
     <div class="container text-center py-4">
         <h2 class="fw-bold mb-3">
-            Ready to Improve Lesson Management?
+            A Transparent and Accountable Lesson Management System
         </h2>
         <p class="lead text-muted mb-4">
-            Sign in to your dashboard and begin managing lessons efficiently.
+            Designed for schools operating within a secure local network environment.
         </p>
         <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-5">
             Access Dashboard
